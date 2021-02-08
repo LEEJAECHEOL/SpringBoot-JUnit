@@ -1,7 +1,6 @@
 package com.cos.book.web;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,7 +14,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,10 +155,14 @@ public class BookControllerIntegreTest {
 	public void delete_테스트() throws Exception {
 		// given
 		Long id = 1L;
+		List<Book> books = new ArrayList<>();
+		books.add(new Book(null,"스프링부트 따라하기","코스"));
+		books.add(new Book(null,"리엑트 따라하기","쌀"));
+		books.add(new Book(null,"JUNIT 따라하기","러브"));
+		bookRepository.saveAll(books);
 		
 		// when
-		ResultActions resultAction = mockMvc.perform(delete("/book/{id}",id)
-				.accept(MediaType.TEXT_PLAIN));
+		ResultActions resultAction = mockMvc.perform(delete("/book/{id}",id));
 		
 		// then
 		resultAction
